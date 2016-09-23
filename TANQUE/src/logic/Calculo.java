@@ -98,7 +98,7 @@ public class Calculo {
 	 * tiempo en que  cae el chorro. lo que se demora de  la avertura hasta caer  a la altura del otro tanque
 	 * @param tanque
 	 * @param tiempo
-	 * @return
+     * @return double
 	 */
 	public static double tiempoC(Tanque tanque){				
 		return Math.sqrt((2*((tanque.getN1()-tanque.getHh1())+tanque.getH3()))/(GRAVEDAD));
@@ -106,6 +106,7 @@ public class Calculo {
 	/**
 	* tiempo total para que se vacie el tanque
 	* @param tanque
+	* @return double
 	*/
 	public static double  tiempoTotalSistema(Tanque tanque){
 		return (areaTanque(tanque)/areaOrificio(tanque))*Math.sqrt((2*tanque.getHh1())/(GRAVEDAD));
@@ -113,12 +114,26 @@ public class Calculo {
 	/**
 	* volumen de h1
 	* @param tanque
+	* @return double
 	*/
 	public static double volumenh1(Tanque tanque){
 		return areaTanque(tanque)*(tanque.getHh1());
 	}
-
+	/**
+	* calcula el desbordamiento que hay del tanque 2
+	* @param tanque
+	* @param N1
+	* @return double
+	*/	
 	public static double desbordamiento(Tanque tanque,double N1){
 		return areaTanque(tanque)*N1;
+	}
+	/**
+	* convierte los  segundos en milisegundos
+	* @param segundo 
+	* @return int
+	*/
+	public static int convertirSM(int segundo){
+		return segundo*100;
 	}
 }

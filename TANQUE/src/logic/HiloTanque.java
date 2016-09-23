@@ -19,12 +19,14 @@ public class HiloTanque extends Thread {
 	public void run() {
 		// TODO Auto-generated method stub
 		super.run();
-		int i=1;		
+		int i=1;	
+		int tiempoAux=0;	
 		while(true){
 			if(iniciar){	
 
 				try {
 					if(Calculo.volumentT(tanque1, i)>=Calculo.volumenMinimo(tanque1)){	
+						tiempoAux++;
 					vol1+=Calculo.volumenC(tanque1, i);				
 						desagueTanque1(i);									
 					}else{
@@ -33,7 +35,8 @@ public class HiloTanque extends Thread {
 							desagueTanque2(i);
 						}else{
 							System.out.println("VOLUMEN "+Calculo.volumenh1(tanque1));
-							System.out.println("TOTAL AUX "+aux);													
+							System.out.println("TOTAL AUX "+aux);		
+							System.out.println("TIEMPO "+tiempoAux);													
 							System.out.println("TOTAL DESAGUE  TANQUE1 "+vol1);
 							System.out.println("TOTAL DESAGUE  TANQUE2 "+vol2);
 							System.out.println("TIEMPO DEL SISTEMA "+Calculo.tiempoTotalSistema(tanque1));
