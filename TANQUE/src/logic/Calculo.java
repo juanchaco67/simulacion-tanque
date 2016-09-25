@@ -3,137 +3,141 @@ package logic;
 public class Calculo {
 	private static final double GRAVEDAD=9.8;
 	/**
+	* velocidad de orificio
+	* @param tanque
+	* @return
+	*/
+	public static double velocidadC(Tanque tanque){
+		return Math.sqrt(2*GRAVEDAD*(tanque.getN1()-tanque.getHh1()));
+	}
+	/**
+	* area del tanque 
+	* @param tanque
+	* @return
+	*/
+	public static double areaTanque(Tanque tanque){
+		return Math.pow(tanque.getA1()/2,2);
+	}
+	/**
 	* area del orificio
 	* @param tanque
 	* @return
 	*/
 	public static double areaOrificio(Tanque tanque){
-		return Math.PI*Math.pow((tanque.getD1()/2), 2);
+		return Math.pow(tanque.getD1()/2,2);
 	}
 	/**
-	* area del tanque
+	* caudal de los tanques
 	* @param tanque
 	* @return
 	*/
-	public static double areaTanque(Tanque tanque){
-		return Math.PI*Math.pow(tanque.getA1()/2,2);
-	}
-	/**
-	 * volumen que queda en el tanque
-	 * @param tanque
-	 * @param N1
-	 * @return
-	 */
-	public static double volumenQ(Tanque tanque){
-		return areaTanque(tanque)*tanque.getN1();
-	}
-
-	/**
-	 * velocidad del chorrito
-	 * @param tanque
-	 * @param N1
-	 * @return
-	 */
-	public static double velocidadC(Tanque tanque){
-		return Math.sqrt(2*GRAVEDAD*(tanque.getN1()));
-	}
-	/**
-	 * volumen del chorrito
-	 * @param tanque
-	 * @param N1
-	 * @param tiempo
-	 * @return
-	 */
-	public static double volumenC(Tanque tanque,int tiempo){
-		return caudal(tanque,tiempo)*tiempo;
-	}
-	/**
-	 * volumen total del tanque en un determinado tiempo
-	 * @param tanque
-	 * @param N1
-	 * @param tiempo
-	 * @return
-	 */
-	public static double volumentT(Tanque tanque,int tiempo){	
-		return volumenQ(tanque)-volumenC(tanque, tiempo);
-	}
-	/**
-	 * nuevo altura del fluido
-	 * @param tanque
-	 * @param tiempo
-	 * @return
-	 */
-	public static double nuevoN1(Tanque tanque,int tiempo){
-		return volumentT(tanque, tiempo)/areaTanque(tanque);
-	}
-	/**
-	 * caudal en ese instante de tiempo
-	 * @param tanque
-	 * @param tiempo
-	 * @return
-	 */
-	public static double caudal(Tanque tanque,int tiempo){
+	public static double caudal(Tanque tanque){
 		return areaOrificio(tanque)*velocidadC(tanque);
 	}
 	/**
-	 * distancia de chorro
-	 * @param tanque
-	 * @param tiempo
-	 * @return
-	 */
-	public static double distanciaC(Tanque tanque,int tiempo){
-		return 2*Math.sqrt(tanque.getHh1()*(tanque.getN1()-tanque.getHh1()));
-	}
-	/**
-	 * volumen minimo de tanques
-	 * @param tanque
-	 * @return
-	 */
-	public static double volumenMinimo(Tanque tanque){
-
-		return areaTanque(tanque)*((tanque.getH1()-tanque.getHh1()));
-	}
-
-	/**
-	 * tiempo en que  cae el chorro. lo que se demora de  la avertura hasta caer  a la altura del otro tanque
-	 * @param tanque
-	 * @param tiempo
-     * @return double
-	 */
-	public static double tiempoC(Tanque tanque){				
-		return Math.sqrt((2*((tanque.getN1()-tanque.getHh1())+tanque.getH3()))/(GRAVEDAD));
-	}
-	/**
-	* tiempo total para que se vacie el tanque
+	* volumen del chorrito  en determinado tiempo 
 	* @param tanque
-	* @return double
+	* @return
 	*/
-	public static double  tiempoTotalSistema(Tanque tanque){
-		return (areaTanque(tanque)/areaOrificio(tanque))*Math.sqrt((2*tanque.getHh1())/(GRAVEDAD));
+	public static double volumenChorrito(Tanque tanque){
+		return caudal(tanque)*(distanciaChorro(tanque)/velocidadC(tanque));
 	}
 	/**
-	* volumen de h1
+	* volumen del chorrito
 	* @param tanque
-	* @return double
+	* @return
 	*/
-	public static double volumenh1(Tanque tanque){
-		return areaTanque(tanque)*(tanque.getHh1());
+	public static double volumenTanque(Tanque tanque){
+		return areaTanque(tanque)*tanque.getH1();
 	}
 	/**
-	* calcula el desbordamiento que hay del tanque 2
+	* volumen que queda 
 	* @param tanque
-	* @param N1
-	* @return double
-	*/	
-	public static double desbordamiento(Tanque tanque,double N1){
-		return areaTanque(tanque)*N1;
+	* @return
+	*/
+	public  static double volumenQueda(Tanque tanque){
+		return areaTanque(tanque)*tanque.getN1();
 	}
 	/**
-	* convierte los  segundos en milisegundos
-	* @param segundo 
-	* @return int
+	* volumen total
+	* @param tanque
+	* @return
 	*/
-	public static int convertirSM(int segundo){
-		return segundo*100;
+	public static double volumenTotalQueda(Tanque tanque){
+		return volumenQueda(tanque)-volumenChorrito(tanque);
+	}
+	/**
+	* altura h2 por encima del orificio
+	* @param tanque
+	* @return
+	*/
+	public static double h2(Tanque tanque){
+		return tanque.getN1()-tanque.getHh1();
+	}
+	/**
+	* volumen por encima del orificio, este  esta variando
+	* @param tanque
+	* @return
+	*/
+	public static double volumenH2Queda(Tanque tanque){
+		return areaTanque(tanque)*h2(tanque);
+	}
+	/**
+	* volumen total de  altura por encima del orificio
+	* @param tanque
+	* @return
+	*/
+	public static double volumenTotalH2(Tanque tanque){
+		return areaTanque(tanque)*(tanque.getH1()-tanque.getHh1());
+	}
+	/**
+	* area del tanque 
+	* @param tanque
+	* @return
+	*/
+	public static double distanciaChorro(Tanque tanque){
+		return  2*Math.sqrt(h2(tanque)*(tanque.getN1()-h2(tanque)));
+	}
+	/**
+	* altura  del fluido  N1 nueva
+	* @param tanque
+	* @return
+	*/
+	public static double nuevoN1(Tanque tanque){
+		return volumenTotalQueda(tanque)/areaTanque(tanque);
+	}
+	/**
+	* Es cuando el liquido cae dentro del tanque2  
+	* @param tanque1
+	* @param tanque1
+	* @return
+	*/
+	public static boolean caeDentro(Tanque tanque1,Tanque tanque2){
+		if(distanciaChorro(tanque1)>=tanque1.getA3() &&  distanciaChorro(tanque1)<=tanque1.getA3()+tanque2.getA1())
+			return true;
+		else
+			return false;
+	}
+	/**
+	* Es la altura que va perdiendo el tanque1 cada vez que sale liquido 
+	* @param tanque
+	* @return
+	*/
+	public static double alturaCaeAdentro(Tanque tanque){
+		return tanque.getN1()-nuevoN1(tanque);
+	}
+	/**
+	* Es cuando el liquido cae dentro del tanque2  
+	* @param tanque
+	* @return
+	*/
+	public static boolean desbordamiento(Tanque tanque){
+		if(tanque.getN1()>tanque.getH1())
+			return true;
+		else
+			return false;	
+	}
+	public static double volumenDesbordamiento(Tanque tanque){
+		return alturaCaeAdentro(tanque)*areaTanque(tanque);
 	}
 }
