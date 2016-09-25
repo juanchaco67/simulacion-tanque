@@ -16,7 +16,7 @@ public class Calculo {
 	* @return
 	*/
 	public static double areaTanque(Tanque tanque){
-		return Math.pow(tanque.getA1()/2,2);
+		return (Math.PI*(Math.pow(tanque.getA1(),2)))/4;
 	}
 	/**
 	* area del orificio
@@ -24,7 +24,7 @@ public class Calculo {
 	* @return
 	*/
 	public static double areaOrificio(Tanque tanque){
-		return Math.pow(tanque.getD1()/2,2);
+		return (Math.PI*Math.pow(tanque.getD1(),2))/4;
 	}
 	/**
 	* caudal de los tanques
@@ -137,7 +137,28 @@ public class Calculo {
 		else
 			return false;	
 	}
+	/**
+	* desbordamiento   
+	* @param tanque
+	* @return
+	*/
 	public static double volumenDesbordamiento(Tanque tanque){
 		return alturaCaeAdentro(tanque)*areaTanque(tanque);
+	}
+	/**
+	* Tiqmpo total en que  se tarda en desocupar  el tanque a una  altura  del orificio  
+	* @param tanque
+	* @return
+	*/
+	public static  double tiempoTotalllenado(Tanque tanque){
+		return (areaTanque(tanque)/areaOrificio(tanque))*(Math.sqrt((2*(tanque.getN1()-tanque.getHh1()))/(GRAVEDAD)));
+	}
+/**
+	* Tiempo en que tarde en caer un volumen de agua al otro tanque  
+	* @param tanque
+	* @return
+	*/
+	public static  double tiempoChorrito(Tanque tanque){
+		return Math.sqrt((2/GRAVEDAD)*(tanque.getHh1()+tanque.getH3()));
 	}
 }
