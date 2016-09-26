@@ -156,6 +156,7 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 		modelo=new DefaultTableModel();
 		modelo.addColumn("");
 		modelo.addColumn("");
+		modelo.addColumn("");
 
 		tablaEstadistica.setModel(modelo);
 		jScrollPane1.setViewportView(tablaEstadistica);
