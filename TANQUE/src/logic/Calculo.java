@@ -161,4 +161,7 @@ public class Calculo {
 	public static  double tiempoChorrito(Tanque tanque){
 		return Math.sqrt((2/GRAVEDAD)*(tanque.getHh1()+tanque.getH3()));
 	}
+	public static double redondear(double numero){
+		return Math.rint(numero*1000)/1000;
+	}
 }
