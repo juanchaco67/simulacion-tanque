@@ -19,8 +19,9 @@ public class ImplementarPresentador implements VistaPresentador {
 		double vol2=0.0,vol3=0.0;
 		double promedioTiempo=0.0;	
 		int contarPromedio=0;
-		System.out.println("TIEMPO DESAGUE TANQUE 1 "+Calculo.redondear(Calculo.tiempoTotalllenado(tanque)));		
-		vistaVentana.addTabla("TIEMPO DESAGUE TANQUE 1 ", Calculo.redondear(Calculo.tiempoTotalllenado(tanque)),"s");
+		double tiempoTotal=0.0;
+		System.out.println("TIEMPO DESAGUE TANQUE 1 "+Calculo.redondear(Calculo.tiempoTotalllenado(tanque)));
+		tiempoTotal=Calculo.redondear(Calculo.tiempoTotalllenado(tanque));
 		while(Calculo.distanciaChorro(tanque)>0.0){
 			tanque.setN1(Calculo.nuevoN1(tanque));
 			if(Calculo.caeDentro(tanque,tanque2))
@@ -33,12 +34,16 @@ public class ImplementarPresentador implements VistaPresentador {
 				vol3+=Calculo.volumenDesbordamiento(tanque);
 			}
 		}
+		vistaVentana.addTabla("PREGUNTA 1","","");
 		System.out.println("VOLUMEN DESPERDICIADO TANQUE 1 "+(Calculo.redondear(Calculo.volumenTotalH2(tanque))-Calculo.redondear(vol2)));
 		vistaVentana.addTabla("VOLUMEN DESPERDICIADO TANQUE 1 ",(Calculo.redondear(Calculo.volumenTotalH2(tanque))-Calculo.redondear(vol2)),"m^3");
 		System.out.println("VOLUMEN DESBORDAMIENTO "+Calculo.redondear(vol3));
 		vistaVentana.addTabla("VOLUMEN DESBORDAMIENTO ",Calculo.redondear(vol3),"m^3");
 		System.out.println("TOTAL DESBORDAMIENTO "+(Calculo.redondear(vol3)+(Calculo.redondear(Calculo.volumenTotalH2(tanque))-Calculo.redondear(vol2))));
 		vistaVentana.addTabla("TOTAL DESBORDAMIENTO ",(Calculo.redondear(vol3)+(Calculo.redondear(Calculo.volumenTotalH2(tanque))-Calculo.redondear(vol2))),"m^3");
+		vistaVentana.addTabla("PREGUNTA 2","","");
+		vistaVentana.addTabla("TIEMPO DESAGUE TANQUE 1 ",tiempoTotal,"s");
+		vistaVentana.addTabla("TIEMPO DESAGUE TANQUE 1 CHORRITO",Calculo.tiempoChorrito(tanque),"s");		
 		if(!String.valueOf(Calculo.redondear(promedioTiempo)/Calculo.redondear(contarPromedio)).equals("NaN")){
 			System.out.println("TIEMPO PROMEDIO  DE CIERRE DE FLUJO DE AGUA TANQUE 1 "+(Calculo.redondear(promedioTiempo)/Calculo.redondear(contarPromedio)));
 			vistaVentana.addTabla("TIEMPO PROMEDIO CIERRE FLUJO DE AGUA ",(Calculo.redondear(promedioTiempo)/Calculo.redondear(contarPromedio)),"s");
@@ -46,6 +51,14 @@ public class ImplementarPresentador implements VistaPresentador {
 			System.out.println("TIEMPO PROMEDIO  DE CIERRE DE FLUJO DE AGUA TANQUE 1 0.0");
 			vistaVentana.addTabla("TIEMPO PROMEDIO CIERRE FLUJO DE AGUA ",0.0,"s");
 		}
+		vistaVentana.addTabla("PREGUTA 3","","");
+		if(vol3==0.0)
+			vistaVentana.addTabla("EL DIAMETRO IDEAL ",tanque.getD1()+"m "+tanque2.getD1()+"m","");	
+		else
+			vistaVentana.addTabla("LOS DIAMETROS SON DIFERENTES"," POR ESO HAY DESBORDAMIENTO ",tanque.getD1()+"m "+tanque2.getD1()+"m");	
+			
+					
+	
 
 	}
 

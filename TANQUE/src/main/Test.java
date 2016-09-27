@@ -1,9 +1,14 @@
 package main;
+import javax.swing.JOptionPane;
+
 import gui.VentanaTanque;
 public class Test {
 	public static void main(String[] args) {
+		JOptionPane.showMessageDialog(null,
+				"EL SISTEMA UTILIZAR EL SISTEMA INTERNACIONAL DE UNIDADES .\n"
+				+ "VOLUMEN (METROS CUBICOS):m^3 \n"
+				+ "LONGITUD (METROS): m \n"
+				+ "TIEMPO: s");		
 		new VentanaTanque();
-		//new Tanque(double A1, double H1, double N1, double h1, double d1, double H3, double A3) {
-
 	 }
 }

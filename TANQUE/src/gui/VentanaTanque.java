@@ -267,7 +267,7 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 	}
 
 	@Override
-	public void addTabla(String titulo,double dato,String unidades) {
+	public void addTabla(String titulo,Object dato,String unidades) {
 		// TODO Auto-generated method stub
 		Object obj[]={
 				titulo,dato,unidades
