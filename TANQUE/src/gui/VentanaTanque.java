@@ -43,6 +43,7 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 	private javax.swing.JTextField txth1;
 	private javax.swing.table.DefaultTableModel modelo;
 	private VistaPresentador presentador;
+	private javax.swing.JCheckBox checkDatos;
 	private double datos[];
 	public VentanaTanque(){
 		setTitle("SIMULACION TANQUES");
@@ -61,6 +62,7 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 		jPanel2 = new javax.swing.JPanel();
 		listaTanque = new javax.swing.JComboBox();
 		jPanel4 = new javax.swing.JPanel();
+		checkDatos = new javax.swing.JCheckBox();
 		jLabel2 = new javax.swing.JLabel();
 		txtA1 = new javax.swing.JTextField();
 		jLabel3 = new javax.swing.JLabel();
@@ -99,7 +101,8 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 		listaTanque.setMinimumSize(new java.awt.Dimension(77, 100));
 		listaTanque.setPreferredSize(new java.awt.Dimension(77, 20));
 		jPanel2.add(listaTanque);
-
+		checkDatos.setText("DATOS POR DEFECTO");
+		jPanel2.add(checkDatos);
 		jPanel4.setLayout(new java.awt.GridLayout(8, 2));
 
 		jLabel2.setText("DIAMETRO TANQUE A1:");
@@ -150,7 +153,7 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 				500,
 				Image.SCALE_DEFAULT));
 		lblImagen.setIcon(icono);
-	
+
 		jPanel3.add(lblImagen);
 
 		modelo=new DefaultTableModel();
@@ -180,6 +183,7 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 		btnSimular.addActionListener(this);
 		listaTanque.addItemListener(this);
 		itemSalir.addActionListener(this);
+		checkDatos.addItemListener(this);
 
 	}
 
@@ -215,15 +219,18 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 	@Override
 	public void addDatos() {
 		// TODO Auto-generated method stub
-	
 		datos[0]=Double.parseDouble(txtA1.getText());
 		datos[1]=Double.parseDouble(txtH1.getText());
 		datos[2]=Double.parseDouble(txtN1.getText());
 		datos[3]=Double.parseDouble(txth1.getText());
 		datos[4]=Double.parseDouble(txtd1.getText());
-		datos[5]=Double.parseDouble(txtH3.getText());
-		datos[6]=Double.parseDouble(txtA3.getText());
-
+		if(txtH3.getText().equals("")){
+			datos[5]=0.0;
+			datos[6]=0.0;
+		}else{
+			datos[5]=Double.parseDouble(txtH3.getText());
+			datos[6]=Double.parseDouble(txtA3.getText());
+		}
 	}
 
 	@Override
@@ -233,12 +240,25 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 			if(listaTanque.getSelectedIndex()==1){
 				habilitarCampos(true);
 				habilitarBtn(true);
+				habilitarCamposT2(true);
 				limpiarDatos();
 			}else if(listaTanque.getSelectedIndex()==2){
 				habilitarCampos(true);
 				habilitarBtn(true);
+				habilitarCamposT2(false);
 				limpiarDatos();			
 			}
+		}
+		if(checkDatos.isSelected()){
+			llenarDatos("1","2","2","0.5","0.02","1","1");
+			habilitarCampos(true);
+			addDatos();			
+			presentador.addTanque(datos,1);
+			presentador.addTanque(datos,2);				
+		}else{		
+			limpiarDatos();
+			llenarDatos("","","","","","","");
+			habilitarCampos(false);
 		}
 	}
 
@@ -282,17 +302,40 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 		// TODO Auto-generated method stub
 		btnGuardar.setEnabled(habilitar);
 		btnSimular.setEnabled(habilitar);
-		
+
 	}
 
 	@Override
 	public void eliminarDatosTabla() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < tablaEstadistica.getRowCount(); i++) {
-	           modelo.removeRow(i);
-	           i-=1;
-	       }
+			modelo.removeRow(i);
+			i-=1;
+		}
 	}
+
+	@Override
+	public void habilitarCamposT2(boolean habiltar) {
+		// TODO Auto-generated method stub
+		txtH3.setEnabled(habiltar);
+		txtA3.setEditable(habiltar);
+
+	}
+
+	@Override
+	public void llenarDatos(String A1,String H1,String N1,String h1,String d1,String H3,String A3) {
+		// TODO Auto-generated method stub
+		txtA1.setText(A1);
+		txtH1.setText(H1);
+		txtN1.setText(N1);
+		txth1.setText(h1);
+		txtd1.setText(d1);
+		txtH3.setText(H3);
+		txtA3.setText(A3);	
+		listaTanque.setSelectedIndex(0);
+
+	}
+
 
 
 
