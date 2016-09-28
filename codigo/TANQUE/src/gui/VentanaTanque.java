@@ -6,6 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.net.URL;
 
+import javax.print.DocFlavor.CHAR_ARRAY;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame; 
@@ -183,7 +184,7 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 		btnSimular.addActionListener(this);
 		listaTanque.addItemListener(this);
 		itemSalir.addActionListener(this);
-		checkDatos.addItemListener(this);
+		checkDatos.addActionListener(this);
 
 	}
 
@@ -196,12 +197,14 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 				limpiarDatos();
 				presentador.addTanque(datos,1);
 				habilitarCampos(false);
+				checkDatos.setSelected(false);
 			}
 			if(listaTanque.getSelectedIndex()==2){
 				addDatos();
 				limpiarDatos();			
 				presentador.addTanque(datos, 2);
 				habilitarCampos(false);
+				checkDatos.setSelected(false);
 			}
 		}
 		if(e.getSource()==btnSimular){
@@ -211,9 +214,35 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 			habilitarBtn(false);
 			presentador.iniciar();
 			listaTanque.setSelectedIndex(0);
+			checkDatos.setSelected(false);
 		}
 		if(e.getSource()==itemSalir)
 			System.exit(0);
+		if(e.getSource()==checkDatos)
+			if(checkDatos.isSelected()){
+				if(listaTanque.getSelectedIndex()==1|| listaTanque.getSelectedIndex()==2){
+					if(listaTanque.getSelectedIndex()==1){	
+						limpiarDatos();
+						llenarDatos("1","2","2","0.5","0.02","1","1");					
+						addDatos();					
+						presentador.addTanque(datos,1);					
+					}
+					if(listaTanque.getSelectedIndex()==2){
+						limpiarDatos();		
+						llenarDatos("1","2","2","0.5","0.02","","");
+						addDatos();						
+						presentador.addTanque(datos, 2);			
+					}
+				}else{
+					JOptionPane.showMessageDialog(null,"SELECCIONE UN TANQUE");
+					checkDatos.setSelected(false);
+				}
+
+			}else if(!checkDatos.isSelected()){		
+				limpiarDatos();
+				llenarDatos("","","","","","","");
+				habilitarCampos(false);
+			}
 	}
 
 	@Override
@@ -236,30 +265,24 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		// TODO Auto-generated method stub		
-		if (e.getSource()==listaTanque) {          
-			if(listaTanque.getSelectedIndex()==1){
-				habilitarCampos(true);
-				habilitarBtn(true);
-				habilitarCamposT2(true);
-				limpiarDatos();
-			}else if(listaTanque.getSelectedIndex()==2){
-				habilitarCampos(true);
-				habilitarBtn(true);
-				habilitarCamposT2(false);
-				limpiarDatos();			
-			}
-		}
-		if(checkDatos.isSelected()){
-			llenarDatos("1","2","2","0.5","0.02","1","1");
-			habilitarCampos(true);
-			addDatos();			
-			presentador.addTanque(datos,1);
-			presentador.addTanque(datos,2);				
-		}else{		
+
+		if(listaTanque.getSelectedIndex()==1){
+
 			limpiarDatos();
-			llenarDatos("","","","","","","");
-			habilitarCampos(false);
+			habilitarCampos(true);
+			habilitarBtn(true);
+			habilitarCamposT2(true);
+			checkDatos.setSelected(false);
+
+		}else if(listaTanque.getSelectedIndex()==2){
+
+			limpiarDatos();
+			habilitarCampos(true);
+			habilitarBtn(true);
+			habilitarCamposT2(false);	
+			checkDatos.setSelected(false);
 		}
+
 	}
 
 	@Override
@@ -332,7 +355,7 @@ public class VentanaTanque extends JFrame implements VistaVentana,ActionListener
 		txtd1.setText(d1);
 		txtH3.setText(H3);
 		txtA3.setText(A3);	
-		listaTanque.setSelectedIndex(0);
+
 
 	}
 
